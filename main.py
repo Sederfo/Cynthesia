@@ -10,8 +10,7 @@ pygame.font.init()
 CLOCK = pygame.time.Clock()
 
 # initialize midi input
-
-MIDI_INPUT = pygame.midi.Input(3)
+MIDI_INPUT = pygame.midi.Input(1)
 
 # initialize screen
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -63,36 +62,16 @@ class PianoKeyboard:
         self.x = 0
         self.y = HEIGHT
         self.note_width = WIDTH // 52
-        self.notes = []
+        self.keys = []
         self.white_notes = []
         self.lowest_note = None
 
-    class NoteCoords:
+    class KeyCoords:
         def __init__(self, x, width, note_number, is_white):
             self.x = x
             self.width = width
             self.note_number = note_number
             self.is_white = is_white
-
-    def read_lowest_note(self):
-        print("Press lowest note on keyboard.")
-        while True:
-            print('aa')
-            if MIDI_INPUT.poll():
-                event = MIDI_INPUT.read(1)
-                self.lowest_note = event[0][0][1]
-                print(self.lowest_note)
-                return event[0][0][1]
-
-    def read_highest_note(self):
-        print("Press lowest note on keyboard.")
-        while True:
-            print('aa')
-            if MIDI_INPUT.poll():
-                event = MIDI_INPUT.read(1)
-                self.lowest_note = event[0][0][1]
-                print(self.lowest_note)
-                return event[0][0][1]
 
     def init(self, lowest_note):
         black_note_pattern = [1, 1, 0, 1, 1, 1, 0]
@@ -101,25 +80,25 @@ class PianoKeyboard:
         bn_iter = itertools.cycle(black_note_pattern)
 
         for i in range(128):
-            self.notes.append(-1)
+            self.keys.append(-1)
 
-        #assign white notes to notes[] list
+        #assign white keys to keys[] list
         for i in range(NR_WHITE_NOTES):
             #print(note_nr)
-            temp = self.NoteCoords(i * (WIDTH // NR_WHITE_NOTES), WIDTH // NR_WHITE_NOTES, note_nr, True)
-            self.notes[note_nr]=temp
+            temp = self.KeyCoords(i * (WIDTH // NR_WHITE_NOTES), WIDTH // NR_WHITE_NOTES, note_nr, True)
+            self.keys[note_nr]=temp
 
             note_nr += 1
             note_nr = note_nr + next(bn_iter)
 
-        #assign black notes to notes[], they are the remaining -1 elements
+        #assign black keys to keys[], they are the remaining -1 elements
         for i in range(128):
-            if self.notes[i]==-1:
-                temp = self.NoteCoords(self.notes[i-1].x+10, WIDTH//100, self.notes[i+1].note_number-1, False)
-                self.notes[i]=temp
+            if self.keys[i]==-1:
+                temp = self.KeyCoords(self.keys[i - 1].x + 10, WIDTH // 100, self.keys[i + 1].note_number - 1, False)
+                self.keys[i]=temp
 
         for i in range(128):
-            print(f"%s is_white: %s" % (self.notes[i].note_number, self.notes[i].is_white))
+            print(f"%s is_white: %s" % (self.keys[i].note_number, self.keys[i].is_white))
 
 
 
@@ -132,17 +111,17 @@ class PianoKeyboard:
         return surf
 
     def draw(self):
-        #draw white notes first
+        #draw white keys first
         white_note_surface = self.create_rect(WIDTH // NR_WHITE_NOTES, 100, 3, WHITE, BLACK)
         for i in range(75):
             WIN.blit(white_note_surface, (i * (WIDTH // NR_WHITE_NOTES), HEIGHT - 100))
 
-        #draw black notes over them
+        #draw black keys over them
         black_note_surface = self.create_rect(WIDTH//150, 50, 3, BLACK, BLACK)
-        #check for black notes and their x coordinate
+        #check for black keys and their x coordinate
         for i in range(128):
-            if not self.notes[i].is_white:
-                x = self.notes[i].x
+            if not self.keys[i].is_white:
+                x = self.keys[i].x
                 WIN.blit(black_note_surface, (x, HEIGHT-100))
 
 
@@ -199,18 +178,12 @@ def freeplay_menu():
     notes = []
 
     pianoKeyboard = PianoKeyboard()
-    #lowest_note = pianoKeyboard.read_lowest_note()
     pianoKeyboard.init(0)
-
-    def redraw_window():
-        WIN.fill([255, 255, 190])
-        # WIN.blit(PIANO_KEYBOARD, (0, HEIGHT - PIANO_KEYBOARD.get_height()))
-
 
     running = True
     while running:
 
-        redraw_window()
+        WIN.fill([255, 255, 190])
 
         for note in notes:
             note.moveNoteUp(note_vel)
@@ -235,17 +208,16 @@ def freeplay_menu():
                 note_number = event[0][0][1]
                 note_velocity = event[0][0][2]
                 timestamp = event[0][1]
-                if pianoKeyboard.notes[note_number].is_white:
+                if pianoKeyboard.keys[note_number].is_white:
                     note = Note(note_number, note_velocity, timestamp,
-                                pianoKeyboard.notes[note_number].x,
+                                pianoKeyboard.keys[note_number].x + 3,
                                 HEIGHT - 150, PIANO_NOTE_WHITE)
                 else:
                     note = Note(note_number, note_velocity, timestamp,
-                                pianoKeyboard.notes[note_number].x,
+                                pianoKeyboard.keys[note_number].x,
                                 HEIGHT - 150, PIANO_NOTE_BLACK)
 
-                # add note to notes list
-
+                # add note to keys list
                 notes.append(note)
 
                 print(note)
