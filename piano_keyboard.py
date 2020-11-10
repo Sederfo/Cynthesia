@@ -4,6 +4,12 @@ import pygame
 from settings import *
 
 
+def create_rect(width, height, border, color, border_color):
+    surf = pygame.Surface((width + border * 2, height + border * 2), pygame.SRCALPHA)
+    pygame.draw.rect(surf, color, (border, border, width, height), 0)
+    for i in range(1, border):
+        pygame.draw.rect(surf, border_color, (border - i, border - i, width + 5, height + 5), 1)
+    return surf
 
 
 class PianoKeyboard:
@@ -50,21 +56,14 @@ class PianoKeyboard:
         for i in range(128):
             print(f"%s is_white: %s" % (self.keys[i].note_number, self.keys[i].is_white))
 
-    def create_rect(self, width, height, border, color, border_color):
-        surf = pygame.Surface((width + border * 2, height + border * 2), pygame.SRCALPHA)
-        pygame.draw.rect(surf, color, (border, border, width, height), 0)
-        for i in range(1, border):
-            pygame.draw.rect(surf, border_color, (border - i, border - i, width + 5, height + 5), 1)
-        return surf
-
     def draw(self, WIN):
         # draw white keys first
-        white_note_surface = self.create_rect(WIDTH // NR_WHITE_NOTES, 100, 3, WHITE, BLACK)
+        white_note_surface = create_rect(WIDTH // NR_WHITE_NOTES, 100, 3, WHITE, BLACK)
         for i in range(75):
             WIN.blit(white_note_surface, (i * (WIDTH // NR_WHITE_NOTES), HEIGHT - 100))
 
         # draw black keys over them
-        black_note_surface = self.create_rect(WIDTH // 150, 50, 3, BLACK, BLACK)
+        black_note_surface = create_rect(WIDTH // 150, 50, 3, BLACK, BLACK)
         # check for black keys and their x coordinate
         for i in range(128):
             if not self.keys[i].is_white:

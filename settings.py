@@ -16,6 +16,10 @@ HIGHEST_NOTE = None
 
 CLOCK = pygame.time.Clock()
 
+# initialize midi input
+pygame.midi.init()
+MIDI_INPUT = pygame.midi.Input(1)
+
 # load images
 PIANO_KEYBOARD = pygame.image.load("graphics/pianoKeyboard.png")
 PIANO_KEYBOARD = pygame.transform.scale(PIANO_KEYBOARD, (WIDTH, 120))

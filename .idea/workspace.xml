@@ -11,13 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94963462-de0c-4fa9-a7d9-fa462f685b73" name="Default Changelist" comment="2nd commit">
-      <change afterPath="$PROJECT_DIR$/freeplay_menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/note.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/piano_keyboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/midis2events.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/record_midi_menu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings_menu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/freeplay_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/freeplay_menu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_song.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/note.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/piano_keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/piano_keyboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +37,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1juvzkIS5c8OO9OdFOssEMtAvSM" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -46,7 +49,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../flat" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PianoKeyGame" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -68,9 +71,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="settings_menu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PianoKeyGame" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/settings_menu.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.settings_menu" />
       </list>
     </recent_temporary>
   </component>
@@ -90,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604774901597</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2nd commit">
+      <created>1604965781259</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604965781259</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -110,6 +142,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="2nd commit" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="454" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604966785488">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state x="454" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog/72.27.1848.1053@72.27.1848.1053" timestamp="1604966785488" />
     <state x="676" y="355" width="630" height="403" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604951498735">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
@@ -126,38 +162,42 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="757" y="233" width="467" height="647" key="Github.UntrackedFilesDialog/72.27.1848.1053@72.27.1848.1053" timestamp="1604774653667" />
-    <state width="1825" height="340" key="GridCell.Tab.0.bottom" timestamp="1604955822433">
+    <state width="1825" height="340" key="GridCell.Tab.0.bottom" timestamp="1604971649495">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822433" />
-    <state width="1825" height="340" key="GridCell.Tab.0.center" timestamp="1604955822432">
+    <state width="1825" height="340" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649495" />
+    <state width="1825" height="340" key="GridCell.Tab.0.center" timestamp="1604971649495">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822432" />
-    <state width="1825" height="340" key="GridCell.Tab.0.left" timestamp="1604955822430">
+    <state width="1825" height="340" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649495" />
+    <state width="1825" height="340" key="GridCell.Tab.0.left" timestamp="1604971649495">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822430" />
-    <state width="1825" height="340" key="GridCell.Tab.0.right" timestamp="1604955822432">
+    <state width="1825" height="340" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649495" />
+    <state width="1825" height="340" key="GridCell.Tab.0.right" timestamp="1604971649495">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822432" />
-    <state width="1825" height="340" key="GridCell.Tab.1.bottom" timestamp="1604955822434">
+    <state width="1825" height="340" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649495" />
+    <state width="1825" height="340" key="GridCell.Tab.1.bottom" timestamp="1604971649496">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.1.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822434" />
-    <state width="1825" height="340" key="GridCell.Tab.1.center" timestamp="1604955822433">
+    <state width="1825" height="340" key="GridCell.Tab.1.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649496" />
+    <state width="1825" height="340" key="GridCell.Tab.1.center" timestamp="1604971649496">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.1.center/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822433" />
-    <state width="1825" height="340" key="GridCell.Tab.1.left" timestamp="1604955822433">
+    <state width="1825" height="340" key="GridCell.Tab.1.center/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649496" />
+    <state width="1825" height="340" key="GridCell.Tab.1.left" timestamp="1604971649495">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.1.left/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822433" />
-    <state width="1825" height="340" key="GridCell.Tab.1.right" timestamp="1604955822433">
+    <state width="1825" height="340" key="GridCell.Tab.1.left/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649495" />
+    <state width="1825" height="340" key="GridCell.Tab.1.right" timestamp="1604971649496">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1825" height="340" key="GridCell.Tab.1.right/72.27.1848.1053@72.27.1848.1053" timestamp="1604955822433" />
+    <state width="1825" height="340" key="GridCell.Tab.1.right/72.27.1848.1053@72.27.1848.1053" timestamp="1604971649496" />
+    <state x="591" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1604965748434">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state x="591" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/72.27.1848.1053@72.27.1848.1053" timestamp="1604965748434" />
     <state x="746" y="443" width="489" height="228" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1604774631243">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>

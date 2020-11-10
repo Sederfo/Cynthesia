@@ -3,6 +3,7 @@ import pygame
 import pygame.midi
 from settings import *
 from freeplay_menu import freeplay_menu
+from record_midi_menu import record_midi_menu
 
 pygame.midi.init()
 pygame.font.init()
@@ -32,8 +33,8 @@ def draw_button(text, font, font_size, color, surface, x, y):
 def main_menu(WIN):
     click = False
     while True:
-
         WIN.fill(TAN)
+
         draw_button('PianoKeyGame', FONT_NAME, FONT_SIZE, BLACK, WIN, WIDTH // 2, 50)
         free_play_button = draw_button('Free Play', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 300)
         record_midi_button = draw_button('Record MIDI', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 375)
@@ -45,8 +46,7 @@ def main_menu(WIN):
             freeplay_menu(WIN)
 
         if record_midi_button.collidepoint((mx, my)) and click:
-            #record_midi_menu()
-            pass
+            record_midi_menu(WIN)
 
         if exit_button.collidepoint((mx, my)) and click:
             sys.exit()
