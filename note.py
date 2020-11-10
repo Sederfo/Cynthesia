@@ -17,7 +17,7 @@ class Note:
         self.y = y
         self.rect = rect
         self.is_pressed = is_pressed
-        self.is_white=is_white
+        self.is_white = is_white
 
     def __str__(self):
         return "Note with number %s and velocity %s at time %s" % (self.number, self.velocity, self.timestamp)
@@ -36,5 +36,4 @@ class Note:
     def moveNoteUp(self, vel):
         self.rect.move_ip(0, -vel)
 
-    def moveNoteDown(self, vel):
-        self.y += vel
+

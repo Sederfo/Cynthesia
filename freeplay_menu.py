@@ -32,6 +32,9 @@ def freeplay_menu(WIN):
                 note.moveNoteUp(note_vel)
                 note.drawNote(WIN)
 
+            if note.rect.y + note.rect.h + 100 < 0:
+                notes.remove(note)
+
         for event in midis2events.midis2events(MIDI_INPUT.read(40), MIDI_INPUT):
             if event.command == midis2events.NOTE_ON:
                 note_number = event.data1
