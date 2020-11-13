@@ -12,6 +12,8 @@ WIN = pygame.display.set_mode((1000, 1000))
 WIN.fill(TAN)
 pygame.draw.rect(WIN, BLACK, white_note_rect)
 
+x=[]
+
 while True:
 
     for event in pygame.event.get():
@@ -22,11 +24,13 @@ while True:
                 #white_note_rect.y-=10
                 white_note_rect.move_ip(0, -1)
                 pygame.draw.rect(WIN, BLACK, white_note_rect)
+                x.append(1)
             if event.key == pygame.K_d:
                 WIN.fill(TAN)
                 white_note_rect.h+=10
                 white_note_rect.move_ip(0, -10)
                 pygame.draw.rect(WIN, BLACK, white_note_rect)
+                x.remove(1)
 
     pygame.display.update()
 

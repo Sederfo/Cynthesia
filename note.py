@@ -3,7 +3,7 @@ from settings import *
 
 
 def number_to_note(number):
-    notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b']
+    notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
     return notes[number % 12]
 
 
@@ -29,9 +29,15 @@ class Note:
     def drawNote(self, WIN):
         # WIN.blit(self.image, (self.x, self.y))
         if self.is_white:
-            pygame.draw.rect(WIN, LIGHTBLUE, self.rect)
+            if self.number < 60:
+                pygame.draw.rect(WIN, LIGHTBLUE, self.rect)
+            else:
+                pygame.draw.rect(WIN, LIGHTORANGE, self.rect)
         else:
-            pygame.draw.rect(WIN, BLUE, self.rect)
+            if self.number < 60:
+                pygame.draw.rect(WIN, BLUE, self.rect)
+            else:
+                pygame.draw.rect(WIN, AUTUMNORANGE, self.rect)
 
     def moveNoteUp(self, vel):
         self.rect.move_ip(0, -vel)

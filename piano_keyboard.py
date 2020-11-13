@@ -38,8 +38,6 @@ class PianoKeyboard:
 
         # assign white keys to keys[] list
         for i in range(NR_WHITE_NOTES):
-            # print(note_nr)
-            print("pula")
             temp = self.KeyCoords(i * (WIDTH // NR_WHITE_NOTES), WIDTH // NR_WHITE_NOTES, note_nr, True)
             self.keys[note_nr] = temp
 
@@ -49,12 +47,9 @@ class PianoKeyboard:
         # assign black keys to keys[], they are the remaining -1 elements
         for i in range(128):
             if self.keys[i] == -1:
-                print("%s" % (self.keys[i]))
+                #print("%s" % (self.keys[i]))
                 temp = self.KeyCoords(self.keys[i - 1].x + 10, WIDTH // 100, self.keys[i + 1].note_number - 1, False)
                 self.keys[i] = temp
-
-        for i in range(128):
-            print(f"%s is_white: %s" % (self.keys[i].note_number, self.keys[i].is_white))
 
     def draw(self, WIN):
         # draw white keys first

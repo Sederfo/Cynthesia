@@ -18,7 +18,7 @@ CLOCK = pygame.time.Clock()
 
 # initialize midi input
 pygame.midi.init()
-MIDI_INPUT = pygame.midi.Input(3)
+MIDI_INPUT = pygame.midi.Input(1)
 
 # load images
 PIANO_KEYBOARD = pygame.image.load("graphics/pianoKeyboard.png")
@@ -39,3 +39,5 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 LIGHTBLUE = (0, 155, 155)
 TAN = (255, 255, 190)
+AUTUMNORANGE = (241, 139, 50)
+LIGHTORANGE = (247, 158, 79)
