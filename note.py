@@ -1,5 +1,5 @@
 import pygame
-from settings import *
+from constants import *
 
 
 def number_to_note(number):
@@ -8,19 +8,17 @@ def number_to_note(number):
 
 
 class Note:
-    def __init__(self, number, velocity, timestamp, x, y, rect, is_pressed, is_white):
+    def __init__(self, number, velocity, start_time, rect, is_pressed, is_white):
         self.number = number
         self.velocity = velocity
         self.ascii = number_to_note(number)
-        self.timestamp = timestamp
-        self.x = x
-        self.y = y
+        self.start_time = start_time
         self.rect = rect
         self.is_pressed = is_pressed
         self.is_white = is_white
 
     def __str__(self):
-        return "Note with number %s and velocity %s at time %s" % (self.number, self.velocity, self.timestamp)
+        return "Note with number %s and velocity %s at time %s" % (self.number, self.velocity, self.start_time)
 
     def incrementHeight(self, x):
         self.rect.h += x

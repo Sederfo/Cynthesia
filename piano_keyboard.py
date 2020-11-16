@@ -1,7 +1,5 @@
 import itertools
-
-import pygame
-from settings import *
+from constants import *
 
 
 def create_rect(width, height, border, color, border_color):
@@ -14,12 +12,9 @@ def create_rect(width, height, border, color, border_color):
 
 class PianoKeyboard:
     def __init__(self):
-        self.x = 0
-        self.y = HEIGHT
-        self.note_width = WIDTH // 52
         self.keys = []
-        self.white_notes = []
 
+    # more like a struct
     class KeyCoords:
         def __init__(self, x, width, note_number, is_white):
             self.x = x
@@ -27,9 +22,9 @@ class PianoKeyboard:
             self.note_number = note_number
             self.is_white = is_white
 
-    def init(self, lowest_note):
+    def init(self):
         black_note_pattern = [1, 1, 0, 1, 1, 1, 0]
-        note_nr = lowest_note
+        note_nr = 0
 
         bn_iter = itertools.cycle(black_note_pattern)
 
@@ -47,20 +42,41 @@ class PianoKeyboard:
         # assign black keys to keys[], they are the remaining -1 elements
         for i in range(128):
             if self.keys[i] == -1:
-                #print("%s" % (self.keys[i]))
+                # print("%s" % (self.keys[i]))
                 temp = self.KeyCoords(self.keys[i - 1].x + 10, WIDTH // 100, self.keys[i + 1].note_number - 1, False)
                 self.keys[i] = temp
 
-    def draw(self, WIN):
+    def draw(self, WIN, notes_pressed_int):
         # draw white keys first
-        white_note_surface = create_rect(WIDTH // NR_WHITE_NOTES, 100, 3, WHITE, BLACK)
-        for i in range(75):
-            WIN.blit(white_note_surface, (i * (WIDTH // NR_WHITE_NOTES), HEIGHT - 100))
+        white_note_surface = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, WHITE, BLACK)
+
+        for i in range(NR_WHITE_NOTES):
+            WIN.blit(white_note_surface, (i * (WIDTH // NR_WHITE_NOTES), HEIGHT - WHITE_NOTE_HEIGHT))
+
+        # surface for a pressed key
+        white_note_surface_pressed1 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, LIGHTORANGE, BLACK)
+        white_note_surface_pressed2 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, LIGHTBLUE, BLACK)
+        for i in notes_pressed_int:
+            if self.keys[i].is_white:
+                if i >= 60:
+                    WIN.blit(white_note_surface_pressed1, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
+                else:
+                    WIN.blit(white_note_surface_pressed2, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
 
         # draw black keys over them
-        black_note_surface = create_rect(WIDTH // 150, 50, 3, BLACK, BLACK)
+        black_note_surface = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, BLACK, BLACK)
         # check for black keys and their x coordinate
         for i in range(128):
             if not self.keys[i].is_white:
                 x = self.keys[i].x
-                WIN.blit(black_note_surface, (x, HEIGHT - 100))
+                WIN.blit(black_note_surface, (x, HEIGHT - WHITE_NOTE_HEIGHT))
+
+        black_note_surface_pressed1 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, AUTUMNORANGE, BLACK)
+        black_note_surface_pressed2 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, BLUE, BLACK)
+
+        for i in notes_pressed_int:
+            if not self.keys[i].is_white:
+                if i >= 60:
+                    WIN.blit(black_note_surface_pressed1, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
+                else:
+                    WIN.blit(black_note_surface_pressed2, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))

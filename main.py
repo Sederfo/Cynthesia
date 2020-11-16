@@ -1,9 +1,9 @@
 import sys
-import pygame
 import pygame.midi
-from settings import *
+from constants import *
 from freeplay_menu import freeplay_menu
 from record_midi_menu import record_midi_menu
+from settings_menu import settings_menu
 
 pygame.midi.init()
 pygame.font.init()
@@ -38,7 +38,8 @@ def main_menu(WIN):
         draw_button('PianoKeyGame', FONT_NAME, FONT_SIZE, BLACK, WIN, WIDTH // 2, 50)
         free_play_button = draw_button('Free Play', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 300)
         record_midi_button = draw_button('Record MIDI', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 375)
-        exit_button = draw_button('Exit', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 450)
+        settings_button = draw_button('Settings', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 450)
+        exit_button = draw_button('Exit', FONT_NAME, FONT_SIZE - 20, BLACK, WIN, WIDTH // 2, 525)
 
         mx, my = pygame.mouse.get_pos()
 
@@ -47,6 +48,9 @@ def main_menu(WIN):
 
         if record_midi_button.collidepoint((mx, my)) and click:
             record_midi_menu(WIN)
+
+        if settings_button.collidepoint((mx, my)) and click:
+            settings_menu(WIN)
 
         if exit_button.collidepoint((mx, my)) and click:
             sys.exit()
