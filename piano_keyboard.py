@@ -54,14 +54,14 @@ class PianoKeyboard:
             WIN.blit(white_note_surface, (i * (WIDTH // NR_WHITE_NOTES), HEIGHT - WHITE_NOTE_HEIGHT))
 
         # surface for a pressed key
-        white_note_surface_pressed1 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, LIGHTORANGE, BLACK)
-        white_note_surface_pressed2 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, LIGHTBLUE, BLACK)
+        white_note_surface_pressed1 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, COLOR3, BLACK)
+        white_note_surface_pressed2 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, COLOR1, BLACK)
         for i in notes_pressed_int:
             if self.keys[i].is_white:
-                if i >= 60:
-                    WIN.blit(white_note_surface_pressed1, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
-                else:
+                if i < 60:
                     WIN.blit(white_note_surface_pressed2, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
+                else:
+                    WIN.blit(white_note_surface_pressed1, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
 
         # draw black keys over them
         black_note_surface = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, BLACK, BLACK)
@@ -71,12 +71,12 @@ class PianoKeyboard:
                 x = self.keys[i].x
                 WIN.blit(black_note_surface, (x, HEIGHT - WHITE_NOTE_HEIGHT))
 
-        black_note_surface_pressed1 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, AUTUMNORANGE, BLACK)
-        black_note_surface_pressed2 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, BLUE, BLACK)
+        black_note_surface_pressed1 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, COLOR4, BLACK)
+        black_note_surface_pressed2 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, COLOR2, BLACK)
 
         for i in notes_pressed_int:
             if not self.keys[i].is_white:
-                if i >= 60:
-                    WIN.blit(black_note_surface_pressed1, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
-                else:
+                if i < 60:
                     WIN.blit(black_note_surface_pressed2, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))
+                else:
+                    WIN.blit(black_note_surface_pressed1, (self.keys[i].x, HEIGHT - WHITE_NOTE_HEIGHT))

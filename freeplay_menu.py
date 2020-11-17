@@ -6,6 +6,7 @@ from constants import *
 import midis2events
 import time as t
 from pychord import note_to_chord
+import re
 
 
 def number_to_note(number):
@@ -34,7 +35,7 @@ def draw_text(WIN, text, font_size, x, y, text_color, center_vertically=True, ce
 def draw_button(text, font, font_size, color, surface, x, y):
     # button text
     fontobj = pygame.font.SysFont(font, font_size)
-    textobj = fontobj.render(text, 1, color)
+    textobj = fontobj.render(text, True, color)
     textrect = textobj.get_rect()
     textrect.topleft = (x - textobj.get_width(), (y - textobj.get_height()) // 2)
 
@@ -107,9 +108,14 @@ def freeplay_menu(WIN):
             if len(notes_pressed_char) == 1:
                 draw_text(WIN, notes_pressed_char[0], 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
             elif len(notes_pressed_char) == 2 and abs(notes_pressed[0] - notes_pressed[1]) == 12:
-                    draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+                draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
             elif note_to_chord(notes_pressed_char):
-                draw_text(WIN, str(note_to_chord(notes_pressed_char))[2:-2], 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+                # REGEX
+                chords = re.findall(r'<Chord: ([^>]*)', str(note_to_chord(notes_pressed_char)))
+                text = ", ".join(chords)
+                draw_text(WIN, "Chord: " + text, 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+
+
 
         # check for midi events from the input port
         for event in midis2events.midis2events(MIDI_INPUT.read(40), MIDI_INPUT):
@@ -122,7 +128,7 @@ def freeplay_menu(WIN):
                 note_number = event.data1
                 velocity = event.data2
 
-                if event.data2 != 0:  # note on
+                if velocity != 0:  # note on
                     print(f"ON %s %s %s" % (event.data1, velocity, t.perf_counter() - start))
                     if pianoKeyboard.keys[note_number].is_white:
                         WHITE_NOTE_RECT = pygame.Rect((pianoKeyboard.keys[note_number].x + 6,
@@ -144,7 +150,7 @@ def freeplay_menu(WIN):
                 else:  # note off
                     # search for note in notes vector and set is_pressed to False
                     for note in notes:
-                        if note.number == event.data1 and note.is_pressed:
+                        if note.number == note_number and note.is_pressed:
                             note.is_pressed = False
 
                     # remove note from notes_pressed list

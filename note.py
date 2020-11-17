@@ -28,14 +28,14 @@ class Note:
         # WIN.blit(self.image, (self.x, self.y))
         if self.is_white:
             if self.number < 60:
-                pygame.draw.rect(WIN, LIGHTBLUE, self.rect)
+                pygame.draw.rect(WIN, COLOR1, self.rect)
             else:
-                pygame.draw.rect(WIN, LIGHTORANGE, self.rect)
+                pygame.draw.rect(WIN, COLOR3, self.rect)
         else:
             if self.number < 60:
-                pygame.draw.rect(WIN, BLUE, self.rect)
+                pygame.draw.rect(WIN, COLOR2, self.rect)
             else:
-                pygame.draw.rect(WIN, AUTUMNORANGE, self.rect)
+                pygame.draw.rect(WIN, COLOR4, self.rect)
 
     def moveNoteUp(self, vel):
         self.rect.move_ip(0, -vel)

@@ -7,6 +7,7 @@ import midis2events
 import time as t
 from midiutil.MidiFile import MIDIFile
 from pychord import note_to_chord
+import re
 
 
 def number_to_note(number):
@@ -14,32 +15,38 @@ def number_to_note(number):
     return notes[number % 12]
 
 
-def draw_text(WIN, text, font_size, x, y, text_color, center_vertically=True, center_horizontally=True):
+def draw_text(WIN, text, font_size, x, y, text_color, center_vertically, center_horizontally, x_right=False,
+              y_down=False):
     font = pygame.font.SysFont(FONT_NAME, font_size)
     text = font.render(text, True, text_color)
     text_rect = text.get_rect()
 
     if center_horizontally:
         text_rect.x = x - text_rect.w // 2  # this centers the text horizontally
+    elif x_right:
+        text_rect.x = x - text_rect.w
     else:
         text_rect.x = x
 
     if center_vertically:
         text_rect.y = y - text_rect.h // 2  # this centers the text vertically
+    elif y_down:
+        text_rect.y = y - text_rect.h
     else:
         text_rect.y = y
 
     WIN.blit(text, text_rect)
+
 
 def draw_button(text, font, font_size, color, surface, x, y):
     # button text
     fontobj = pygame.font.SysFont(font, font_size)
     textobj = fontobj.render(text, 1, color)
     textrect = textobj.get_rect()
-    textrect.topleft = (x - textobj.get_width(), (y - textobj.get_height())//2)
+    textrect.topleft = (x - textobj.get_width(), (y - textobj.get_height()) // 2)
 
     # button rect
-    button = pygame.Rect(x - textobj.get_width(), (y - textobj.get_height())//2,
+    button = pygame.Rect(x - textobj.get_width(), (y - textobj.get_height()) // 2,
                          textobj.get_width(), textobj.get_height())
     pygame.draw.rect(surface, WHITE, button)
 
@@ -49,13 +56,6 @@ def draw_button(text, font, font_size, color, surface, x, y):
 
 
 def record_midi_menu(WIN):
-    # create MIDI object
-    mf = MIDIFile(1)  # only 1 track
-    track = 0  # the only track
-    mf.addTrackName(track, 0, "Sample Track")
-    mf.addTempo(track, 0, 60)
-    channel = 0
-
     # the velocity with which the notes move up
     note_vel = 2
 
@@ -77,6 +77,7 @@ def record_midi_menu(WIN):
     click = False
 
     running = True
+    recording = False
     while running:
         # fill background color and draw keyboard over it
         WIN.fill(TAN)
@@ -100,7 +101,12 @@ def record_midi_menu(WIN):
 
         # draw text on bar
         draw_text(WIN, "Record MIDI", 25, WIDTH // 2, HEIGHT // 17 // 2, BLACK, True, True)
-        back_button = draw_button('Main Menu', FONT_NAME, 25, BLACK, WIN, WIDTH - 5, HEIGHT//17)
+        back_button = draw_button('Main Menu', FONT_NAME, 25, BLACK, WIN, WIDTH - 5, HEIGHT // 17)
+
+        if not recording:
+            draw_text(WIN, "Press P to start recording", 20, WIDTH - 5, HEIGHT // 17 * 1.5, BLACK, True, False, True)
+        else:
+            draw_text(WIN, "Press P to stop recording", 20, WIDTH - 5, HEIGHT // 17 * 1.5, BLACK, True, False, True)
 
         # draw currently pressed chord name on screen
         if len(notes_pressed) > 0:
@@ -110,13 +116,15 @@ def record_midi_menu(WIN):
 
             notes_pressed_char.sort()
             if len(notes_pressed_char) == 1:
-                # draw_chord(WIN, notes_pressed_char[0])
                 draw_text(WIN, notes_pressed_char[0], 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
-            elif len(notes_pressed_char) == 2:
-                if abs(notes_pressed[0] - notes_pressed[1]) == 12:
-                    draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+            elif len(notes_pressed_char) == 2 and abs(notes_pressed[0] - notes_pressed[1]) == 12:
+                draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True,
+                          False)
             elif note_to_chord(notes_pressed_char):
-                draw_text(WIN, str(note_to_chord(notes_pressed_char))[2:-2], 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+                # REGEX
+                chords = re.findall(r'<Chord: ([^>]*)', str(note_to_chord(notes_pressed_char)))
+                text = ", ".join(chords)
+                draw_text(WIN, "Chord: " + text, 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
 
         # check for midi events from the input port
         for event in midis2events.midis2events(MIDI_INPUT.read(40), MIDI_INPUT):
@@ -128,7 +136,7 @@ def record_midi_menu(WIN):
                 note_number = event.data1
                 velocity = event.data2
 
-                if event.data2 != 0:  # note on
+                if velocity != 0:  # note on
                     print(f"ON %s %s %s" % (event.data1, velocity, t.perf_counter() - start))
 
                     if pianoKeyboard.keys[note_number].is_white:
@@ -148,20 +156,21 @@ def record_midi_menu(WIN):
                     # add note number to currently pressed notes list
                     notes_pressed.append(note_number)
 
-
                 else:  # note off
                     # search for note in notes list and set note.is_pressed to False
                     for note in notes:
-                        if note.number == event.data1 and note.is_pressed:
+                        if note.number == note_number and note.is_pressed:
                             note.is_pressed = False
 
                             # write note to MIDI file
-                            print("turn off note %s with start time %s" % (note.number, note.start_time))
-                            mf.addNote(track, channel, note_number, note.start_time,
-                                       t.perf_counter() - start - note.start_time, note.velocity)
+                            if recording:
+                                mf.addNote(track, channel, note_number, note.start_time,
+                                           t.perf_counter() - start - note.start_time, note.velocity)
 
                             # remove note from notes_pressed list
                             notes_pressed.remove(note_number)
+
+                            print("turn off note %s with start time %s" % (note.number, note.start_time))
 
                     print(f"OFF %s %s %s" % (event.data1, event.data2, t.perf_counter() - start))
             # elif event.command == midis2events.NOTE_OFF:
@@ -172,9 +181,20 @@ def record_midi_menu(WIN):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    running = False
+                if event.key == pygame.K_p and recording == False:
+                    recording = True
+                    # create MIDI object
+                    mf = MIDIFile(1)  # only 1 track
+                    track = 0  # the only track
+                    mf.addTrackName(track, 0, "Sample Track")
+                    mf.addTempo(track, 0, 60)
+                    channel = 0
+                    start = t.perf_counter()
+                elif event.key == pygame.K_p and recording == True:
+                    recording = False
                     with open("output.mid", 'wb') as outf:
                         mf.writeFile(outf)
-                    running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
