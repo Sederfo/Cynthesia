@@ -8,6 +8,8 @@ import time as t
 from midiutil.MidiFile import MIDIFile
 from pychord import note_to_chord
 import re
+import random
+from particle import Particle
 
 
 def number_to_note(number):
@@ -55,6 +57,37 @@ def draw_button(text, font, font_size, color, surface, x, y):
     return button
 
 
+def enter_text(WIN):
+    insert_text = True
+    surf = pygame.Surface((WIDTH // 3, HEIGHT // 10))
+    surf.fill(WHITE)
+    text = ""
+    while insert_text:
+        WIN.blit(surf, ((WIDTH - surf.get_width()) // 2, (HEIGHT - surf.get_height()) // 2))
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if 65 <= event.key <= 122:
+                    text += chr(event.key)
+                    surf.fill(WHITE)
+                    draw_text(surf, text, 20, surf.get_width() // 2, surf.get_height() // 2, 0, BLACK, True, True)
+
+                if event.key == pygame.K_RETURN:
+                    insert_text = False
+
+                if event.key == pygame.K_BACKSPACE:
+                    text = text[:-1]
+                    surf.fill(WHITE)
+                    draw_text(surf, text, 20, surf.get_width() // 2, surf.get_height() // 2, 0, BLACK, True, True)
+
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        pygame.display.update()
+
+    return text
+
+
 def record_midi_menu(WIN):
     # the velocity with which the notes move up
     note_vel = 2
@@ -64,6 +97,9 @@ def record_midi_menu(WIN):
 
     # list of currently pressed notes, used for chords
     notes_pressed = []
+
+    # particles list
+    particles = []
 
     pianoKeyboard = PianoKeyboard()
     pianoKeyboard.init()
@@ -76,8 +112,13 @@ def record_midi_menu(WIN):
 
     click = False
 
+    mf = None
+    track = None
+    channel = None
+
     running = True
     recording = False
+    entering_text = False
     while running:
         # fill background color and draw keyboard over it
         WIN.fill(TAN)
@@ -88,12 +129,33 @@ def record_midi_menu(WIN):
             if note.is_pressed:
                 note.incrementHeight(note_vel)
                 note.drawNote(WIN)
+                # generate particles
+                COLOR = None
+                if note.is_white:
+                    if note.number < 60:
+                        COLOR = COLOR1
+                    else:
+                        COLOR = COLOR3
+                else:
+                    if note.number < 60:
+                        COLOR = COLOR2
+                    else:
+                        COLOR = COLOR4
+
+                p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
+                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
+                particles.append(p)
             else:
                 note.moveNoteUp(note_vel)
                 note.drawNote(WIN)
 
             if note.rect.y + note.rect.h + 100 < 0:
                 notes.remove(note)
+
+        # remove expired particles
+        for particle in particles:
+            if particle.radius <= 0:
+                particles.remove(particle)
 
         # draw top bar
         pygame.draw.rect(WIN, WHITE, (0, 0, WIDTH, HEIGHT // 17))
@@ -163,9 +225,12 @@ def record_midi_menu(WIN):
                             note.is_pressed = False
 
                             # write note to MIDI file
-                            if recording:
-                                mf.addNote(track, channel, note_number, note.start_time,
-                                           t.perf_counter() - start - note.start_time, note.velocity)
+                            try:
+                                if recording:
+                                    mf.addNote(track, channel, note_number, note.start_time,
+                                               t.perf_counter() - start - note.start_time, note.velocity)
+                            except:
+                                print("Something went wrong with writing the MIDI file.")
 
                             # remove note from notes_pressed list
                             notes_pressed.remove(note_number)
@@ -179,9 +244,11 @@ def record_midi_menu(WIN):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+
                 if event.key == pygame.K_p and recording == False:
                     recording = True
                     # create MIDI object
@@ -191,10 +258,14 @@ def record_midi_menu(WIN):
                     mf.addTempo(track, 0, 60)
                     channel = 0
                     start = t.perf_counter()
+
                 elif event.key == pygame.K_p and recording == True:
                     recording = False
-                    with open("output.mid", 'wb') as outf:
-                        mf.writeFile(outf)
+                    filename = enter_text(WIN)
+                    if filename != "":
+                        with open(filename + ".mid", 'wb') as outf:
+                            mf.writeFile(outf)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True

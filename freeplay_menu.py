@@ -7,6 +7,8 @@ import midis2events
 import time as t
 from pychord import note_to_chord
 import re
+from particle import Particle
+import random
 
 
 def number_to_note(number):
@@ -59,6 +61,9 @@ def freeplay_menu(WIN):
     # list of currently pressed notes, used for chords
     notes_pressed = []
 
+    # particles list
+    particles = []
+
     pianoKeyboard = PianoKeyboard()
     pianoKeyboard.init()
 
@@ -82,12 +87,33 @@ def freeplay_menu(WIN):
             if note.is_pressed:
                 note.incrementHeight(note_vel)
                 note.drawNote(WIN)
+                # generate particles
+                COLOR = None
+                if note.is_white:
+                    if note.number < 60:
+                        COLOR = BLACK
+                    else:
+                        COLOR = RED
+                else:
+                    if note.number < 60:
+                        COLOR = RED
+                    else:
+                        COLOR = COLOR4
+
+                p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
+                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
+                particles.append(p)
             else:
                 note.moveNoteUp(note_vel)
                 note.drawNote(WIN)
 
             if note.rect.y + note.rect.h + 100 < 0:
                 notes.remove(note)
+
+        # remove expired particles
+        for particle in particles:
+            if particle.radius <= 0:
+                particles.remove(particle)
 
         # draw top bar
         pygame.draw.rect(WIN, WHITE, (0, 0, WIDTH, HEIGHT // 17))
@@ -108,14 +134,22 @@ def freeplay_menu(WIN):
             if len(notes_pressed_char) == 1:
                 draw_text(WIN, notes_pressed_char[0], 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
             elif len(notes_pressed_char) == 2 and abs(notes_pressed[0] - notes_pressed[1]) == 12:
-                draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+                draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True,
+                          False)
             elif note_to_chord(notes_pressed_char):
                 # REGEX
                 chords = re.findall(r'<Chord: ([^>]*)', str(note_to_chord(notes_pressed_char)))
                 text = ", ".join(chords)
                 draw_text(WIN, "Chord: " + text, 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
 
-
+        # draw particles
+        for particle in particles:
+            particle.position[0] += particle.velocity[0]
+            particle.position[1] += particle.velocity[1]
+            particle.radius -= 0.1
+            pygame.draw.circle(WIN, particle.color, particle.position, particle.radius)
+            if particle.radius <= 0:
+                particles.remove(particle)
 
         # check for midi events from the input port
         for event in midis2events.midis2events(MIDI_INPUT.read(40), MIDI_INPUT):
@@ -135,6 +169,7 @@ def freeplay_menu(WIN):
                                                        HEIGHT - WHITE_NOTE_HEIGHT), (WIDTH // NR_WHITE_NOTES - 3, 0))
                         note = Note(number=note_number, velocity=velocity, start_time=t.perf_counter() - start,
                                     rect=WHITE_NOTE_RECT, is_pressed=True, is_white=True)
+
                     else:
                         BLACK_NOTE_RECT = pygame.Rect((pianoKeyboard.keys[note_number].x + 3,
                                                        HEIGHT - WHITE_NOTE_HEIGHT), (WIDTH // 100 - 3, 0))
