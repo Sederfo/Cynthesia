@@ -28,12 +28,12 @@ class Note:
         # WIN.blit(self.image, (self.x, self.y))
         if self.is_white:
             if self.number < 60:
-                pygame.draw.rect(WIN, COLOR1, self.rect)
+                pygame.draw.rect(WIN, COLOR3, self.rect)
             else:
                 pygame.draw.rect(WIN, COLOR3, self.rect)
         else:
             if self.number < 60:
-                pygame.draw.rect(WIN, COLOR2, self.rect)
+                pygame.draw.rect(WIN, COLOR4, self.rect)
             else:
                 pygame.draw.rect(WIN, COLOR4, self.rect)
 

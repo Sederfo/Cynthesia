@@ -35,8 +35,7 @@ def settings_menu(WIN):
                 if event.key == pygame.K_ESCAPE:
                     running = False
                 if event.key == pygame.K_p:
-                    insert_text = True;
-                    print("P")
+                    insert_text = True
 
         while insert_text:
             WIN.fill(WHITE)

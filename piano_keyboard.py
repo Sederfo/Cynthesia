@@ -55,7 +55,7 @@ class PianoKeyboard:
 
         # surface for a pressed key
         white_note_surface_pressed1 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, COLOR3, BLACK)
-        white_note_surface_pressed2 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, COLOR1, BLACK)
+        white_note_surface_pressed2 = create_rect(WIDTH // NR_WHITE_NOTES, WHITE_NOTE_HEIGHT, 3, COLOR3, BLACK)
         for i in notes_pressed_int:
             if self.keys[i].is_white:
                 if i < 60:
@@ -72,7 +72,7 @@ class PianoKeyboard:
                 WIN.blit(black_note_surface, (x, HEIGHT - WHITE_NOTE_HEIGHT))
 
         black_note_surface_pressed1 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, COLOR4, BLACK)
-        black_note_surface_pressed2 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, COLOR2, BLACK)
+        black_note_surface_pressed2 = create_rect(WIDTH // 150, BLACK_NOTE_HEIGHT, 3, COLOR4, BLACK)
 
         for i in notes_pressed_int:
             if not self.keys[i].is_white:

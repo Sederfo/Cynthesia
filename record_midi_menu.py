@@ -80,6 +80,9 @@ def enter_text(WIN):
                     surf.fill(WHITE)
                     draw_text(surf, text, 20, surf.get_width() // 2, surf.get_height() // 2, 0, BLACK, True, True)
 
+                if event.key == pygame.K_ESCAPE:
+                    return ""
+
             if event.type == pygame.QUIT:
                 sys.exit()
 
@@ -138,9 +141,9 @@ def record_midi_menu(WIN):
                         COLOR = COLOR3
                 else:
                     if note.number < 60:
-                        COLOR = COLOR2
+                        COLOR = COLOR1
                     else:
-                        COLOR = COLOR4
+                        COLOR = COLOR3
 
                 p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
                              [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
