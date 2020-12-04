@@ -101,7 +101,7 @@ def freeplay_menu(WIN):
                         COLOR = COLOR4
 
                 p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
-                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
+                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, BLACK)
                 particles.append(p)
             else:
                 note.moveNoteUp(note_vel)
