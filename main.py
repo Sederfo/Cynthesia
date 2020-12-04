@@ -4,6 +4,7 @@ from constants import *
 from freeplay_menu import freeplay_menu
 from record_midi_menu import record_midi_menu
 from settings_menu import settings_menu
+
 from particle import Particle
 import random
 

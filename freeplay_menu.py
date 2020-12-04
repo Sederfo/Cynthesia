@@ -15,6 +15,14 @@ def number_to_note(number):
     notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
     return notes[number % 12]
 
+def remove_duplicates(x):
+    res = []
+    for i in x:
+        if i not in res:
+            res.append(i)
+
+    return res
+
 
 def draw_text(WIN, text, font_size, x, y, text_color, center_vertically=True, center_horizontally=True):
     font = pygame.font.SysFont(FONT_NAME, font_size)
@@ -101,7 +109,7 @@ def freeplay_menu(WIN):
                         COLOR = COLOR4
 
                 p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
-                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, BLACK)
+                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
                 particles.append(p)
             else:
                 note.moveNoteUp(note_vel)
@@ -136,11 +144,15 @@ def freeplay_menu(WIN):
             elif len(notes_pressed_char) == 2 and abs(notes_pressed[0] - notes_pressed[1]) == 12:
                 draw_text(WIN, notes_pressed_char[0] + " with perfect octave", 25, 5, HEIGHT // 17 // 2, BLACK, True,
                           False)
-            elif note_to_chord(notes_pressed_char):
-                # REGEX
-                chords = re.findall(r'<Chord: ([^>]*)', str(note_to_chord(notes_pressed_char)))
-                text = ", ".join(chords)
-                draw_text(WIN, "Chord: " + text, 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+            else:
+                notes_pressed_char = remove_duplicates(notes_pressed_char)
+                if note_to_chord(notes_pressed_char):
+                    # REGEX
+                    chords = re.findall(r'<Chord: ([^>]*)', str(note_to_chord(notes_pressed_char)))
+                    text = ", ".join(chords)
+                    draw_text(WIN, "Chord: " + text, 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+
+            print(remove_duplicates(["a", "b", "a", "c", "c"]))
 
         # draw particles
         for particle in particles:

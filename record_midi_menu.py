@@ -146,7 +146,7 @@ def record_midi_menu(WIN):
                         COLOR = COLOR3
 
                 p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
-                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
+                             [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, RED)
                 particles.append(p)
             else:
                 note.moveNoteUp(note_vel)
@@ -190,6 +190,15 @@ def record_midi_menu(WIN):
                 chords = re.findall(r'<Chord: ([^>]*)', str(note_to_chord(notes_pressed_char)))
                 text = ", ".join(chords)
                 draw_text(WIN, "Chord: " + text, 25, 5, HEIGHT // 17 // 2, BLACK, True, False)
+
+        # draw particles
+        for particle in particles:
+            particle.position[0] += particle.velocity[0]
+            particle.position[1] += particle.velocity[1]
+            particle.radius -= 0.1
+            pygame.draw.circle(WIN, particle.color, particle.position, particle.radius)
+            if particle.radius <= 0:
+                particles.remove(particle)
 
         # check for midi events from the input port
         for event in midis2events.midis2events(MIDI_INPUT.read(40), MIDI_INPUT):
