@@ -13,7 +13,7 @@ pygame.font.init()
 
 # initialize screen
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("PianoKeyGame")
+pygame.display.set_caption("Cynthesia")
 
 
 def draw_button(text, font, font_size, color, surface, x, y, button_color):
@@ -71,13 +71,12 @@ def main_menu(WIN):
         draw_text(WIN, "Cynthesia", 50 * HEIGHT//720, WIDTH // 2, HEIGHT // 10 // 2, BLACK, True, True)
 
         # draw text in bottom bar
-        draw_text(WIN, "Connected devices: ", 15 * HEIGHT // 720, 0, HEIGHT - HEIGHT // 20 // 2, BLACK, True, False)
+        draw_text(WIN, "  Version 1.0 ", 15 * HEIGHT // 720, 0, HEIGHT - HEIGHT // 20 // 2, BLACK, True, False)
 
         # draw buttons
         free_play_button = draw_button('Free Play', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 300, BUTTONCOLOR)
         record_midi_button = draw_button('Record MIDI', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 375, BUTTONCOLOR)
-        settings_button = draw_button('Settings', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 450, BUTTONCOLOR)
-        exit_button = draw_button('Exit', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 525, BUTTONCOLOR)
+        exit_button = draw_button('Exit', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 450, BUTTONCOLOR)
 
         # check for mouse position and button clicking
         mx, my = pygame.mouse.get_pos()
@@ -92,13 +91,8 @@ def main_menu(WIN):
             if click:
                 record_midi_menu(WIN)
 
-        if settings_button.collidepoint((mx, my)):
-            draw_button('Settings', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 450, CREAM)
-            if click:
-                settings_menu(WIN)
-
         if exit_button.collidepoint((mx, my)):
-            exit_button = draw_button('Exit', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 525, CREAM)
+            exit_button = draw_button('Exit', FONT_NAME, 30 * HEIGHT//720, FONTCOLOR, WIN, WIDTH // 2, 450, CREAM)
             if click:
                 sys.exit()
 

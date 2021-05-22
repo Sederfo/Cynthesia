@@ -96,17 +96,7 @@ def freeplay_menu(WIN):
                 note.incrementHeight(note_vel)
                 note.drawNote(WIN)
                 # generate particles
-                COLOR = None
-                if note.is_white:
-                    if note.number < 60:
-                        COLOR = BLACK
-                    else:
-                        COLOR = RED
-                else:
-                    if note.number < 60:
-                        COLOR = RED
-                    else:
-                        COLOR = COLOR4
+                COLOR = RED
 
                 p = Particle([pianoKeyboard.keys[note.number].x + 6, HEIGHT - WHITE_NOTE_HEIGHT], random.randint(1, 5),
                              [random.randint(0, 20) / 10 - 1, random.randint(0, 20) / 10 - 2], 6, COLOR)
