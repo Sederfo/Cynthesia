@@ -10,10 +10,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94963462-de0c-4fa9-a7d9-fa462f685b73" name="Default Changelist" comment="    2nd commit">
-      <change beforePath="$PROJECT_DIR$/freeplay_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/freeplay_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="94963462-de0c-4fa9-a7d9-fa462f685b73" name="Default Changelist" comment="    2nd commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -241,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606929169101</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="commit">
+      <created>1621716017776</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1621716017776</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -258,25 +262,30 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2nd commit" />
+    <MESSAGE value="commit" />
     <MESSAGE value="    2nd commit" />
     <option name="LAST_COMMIT_MESSAGE" value="    2nd commit" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1621715830336">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1621716024151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1621715830336" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1621715830336">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1621716024151" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1621716024151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1621715830336" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1621715830335">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1621716024151" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1621716024151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1621715830335" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1621715830336">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1621716024151" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1621716024151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1621715830336" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1621716024151" />
+    <state x="764" y="254" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1621716135798">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="764" y="254" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621716135798" />
   </component>
 </project>
